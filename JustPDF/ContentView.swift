@@ -2,19 +2,45 @@ import SwiftUI
 import PDFKit
 import Cocoa
 
-/// Custom NSWindow is needed to make the window chromeless yet still able to handle keyboard events.
-class KeyWindow: NSWindow {
-    override var canBecomeKey: Bool { return true }
-    override var canBecomeMain: Bool { return true }
-}
-
 struct ContentView: View {
     @Binding var document: JustPDFDocument
-
+    @StateObject private var windowDelegate = WindowDelegate()
+    
     var body: some View {
         PDFViewer(document: $document)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
+            .ignoresSafeArea()
+            .onAppear {
+                for window in NSApplication.shared.windows {
+                    window.delegate = windowDelegate
+                    windowDelegate.applyWindowSettings(to: window)
+                }
+            }
+    }
+}
+
+class WindowDelegate: NSObject, NSWindowDelegate, ObservableObject {
+    func windowDidBecomeKey(_ notification: Notification) {
+        if let window = notification.object as? NSWindow { applyWindowSettings(to: window) }
+    }
+    
+    func windowDidResignKey(_ notification: Notification) {
+        if let window = notification.object as? NSWindow { applyWindowSettings(to: window) }
+    }
+
+    func applyWindowSettings(to window: NSWindow) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            window.titlebarAppearsTransparent = true
+            window.titleVisibility = .hidden
+            window.isMovableByWindowBackground = true
+            window.styleMask.insert(.fullSizeContentView)
+            window.backgroundColor = .clear
+
+            window.standardWindowButton(.closeButton)?.isHidden = true
+            window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+            window.standardWindowButton(.zoomButton)?.isHidden = true
+        }
     }
 }
 
@@ -22,40 +48,29 @@ struct ContentView: View {
 struct PDFViewer: NSViewRepresentable {
     @Binding var document: JustPDFDocument
 
-    func makeNSView(context: Context) -> JustPDFView {
-        let view = JustPDFView()
-        view.autoScales = true
-        view.displaysPageBreaks = false
+    func makeNSView(context: Context) -> NSView {
+        let containerView = NSView()
+        let pdfView = JustPDFView()
+        pdfView.autoScales = true
+        pdfView.displaysPageBreaks = false
+        pdfView.displayMode = .singlePage
+        pdfView.translatesAutoresizingMaskIntoConstraints = false
 
-        DispatchQueue.main.async {
-            if let window = view.window {
-                // Create an instance of your custom KeyWindow
-                // with borderless and resizable style masks
-                let keyWindow = KeyWindow(
-                    contentRect: window.frame,
-                    styleMask: [.borderless, .resizable],
-                    backing: .buffered,
-                    defer: false
-                )
+        containerView.addSubview(pdfView)
+        NSLayoutConstraint.activate([
+            pdfView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            pdfView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            pdfView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            pdfView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
 
-                // Set the content view and make the window key and visible
-                keyWindow.contentView = window.contentView
-                keyWindow.makeKeyAndOrderFront(nil)
-
-                // Close the original window to prevent having two windows
-                window.close()
-
-                // Enable window movement by dragging anywhere in the content
-                keyWindow.isMovableByWindowBackground = true
-                keyWindow.acceptsMouseMovedEvents = true
-            }
-        }
-
-        return view
+        return containerView
     }
 
-    func updateNSView(_ nsView: JustPDFView, context: Context) {
-        nsView.document = document.pdfDocument
+    func updateNSView(_ nsView: NSView, context: Context) {
+        if let pdfView = nsView.subviews.first as? JustPDFView {
+            pdfView.document = document.pdfDocument
+        }
     }
 }
 
@@ -63,23 +78,54 @@ struct PDFViewer: NSViewRepresentable {
 ///
 /// - Fine-grained zoom
 /// - Page navigation using the left and right arrows.
+///
 class JustPDFView: PDFView {
     private var zoomIncrement: CGFloat = 0.02
     
-    override func keyDown(with event: NSEvent) {
-        switch event.keyCode {
-        // Left arrow
-        case 123:
-            self.goToPreviousPage(self)
-        // Right arrow
-        case 124:
-            self.goToNextPage(self)
-        // Everything else
-        default:
-            super.keyDown(with: event)
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        setupContentInsets()
+        NotificationCenter.default.addObserver(self, selector: #selector(pageDidChange(_:)), name: .PDFViewPageChanged, object: self)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupContentInsets()
+        NotificationCenter.default.addObserver(self, selector: #selector(pageDidChange(_:)), name: .PDFViewPageChanged, object: self)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .PDFViewPageChanged, object: self)
+    }
+
+    @objc private func pageDidChange(_ notification: Notification) {
+        adjustContentInsets()
+    }
+
+    private func setupContentInsets() {
+        adjustContentInsets()
+    }
+
+    // Without this code, goToPreviousPage() and goToNextPage() will shrink the content
+    private func adjustContentInsets() {
+        if let scrollView = subviews.first as? NSScrollView {
+            scrollView.automaticallyAdjustsContentInsets = false
+            scrollView.contentInsets = NSEdgeInsetsZero
+            scrollView.contentView.contentInsets = NSEdgeInsetsZero
         }
     }
 
+    override func keyDown(with event: NSEvent) {
+        switch event.keyCode {
+        case 123: // Left arrow
+            goToPreviousPage(self)
+        case 124: // Right arrow
+            goToNextPage(self)
+        default: // Everything else
+            super.keyDown(with: event)
+        }
+    }
+    
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.modifierFlags.contains(.command), let characters = event.charactersIgnoringModifiers {
             switch characters {
@@ -98,17 +144,17 @@ class JustPDFView: PDFView {
         }
         return super.performKeyEquivalent(with: event)
     }
-
+    
     private func zoomIn() {
-        scaleFactor = min(self.scaleFactor * (1.0 + zoomIncrement), maxScaleFactor)
+        scaleFactor = min(scaleFactor * (1.0 + zoomIncrement), maxScaleFactor)
     }
-
+    
     private func zoomOut() {
-        scaleFactor = max(self.scaleFactor * (1.0 - zoomIncrement), minScaleFactor)
+        scaleFactor = max(scaleFactor * (1.0 - zoomIncrement), minScaleFactor)
     }
-
+    
     private func resetZoom() {
-        scaleFactor = self.scaleFactorForSizeToFit
+        scaleFactor = scaleFactorForSizeToFit
     }
 }
 
