@@ -117,10 +117,16 @@ class JustPDFView: PDFView {
 
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
-        case 123: // Left arrow
+        case 126: // Up
             goToPreviousPage(self)
-        case 124: // Right arrow
+        case 123: // Left
+            goToPreviousPage(self)
+        case 125: // Down
             goToNextPage(self)
+        case 124: // Right
+            goToNextPage(self)
+        case 32: // Space
+            event.modifierFlags.contains(.shift) ? goToPreviousPage(self) : goToNextPage(self)
         default: // Everything else
             super.keyDown(with: event)
         }
