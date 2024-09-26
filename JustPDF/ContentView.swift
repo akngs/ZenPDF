@@ -2,6 +2,7 @@ import SwiftUI
 import PDFKit
 import Cocoa
 
+/// Custom NSWindow is needed to make the window chromeless yet still able to handle keyboard events.
 class KeyWindow: NSWindow {
     override var canBecomeKey: Bool { return true }
     override var canBecomeMain: Bool { return true }
@@ -17,6 +18,7 @@ struct ContentView: View {
     }
 }
 
+/// Chromeless PDF viewer
 struct PDFViewer: NSViewRepresentable {
     @Binding var document: JustPDFDocument
 
@@ -57,13 +59,12 @@ struct PDFViewer: NSViewRepresentable {
     }
 }
 
-/// This view adds two things:
+/// This view adds two things to the PDFView:
 ///
 /// - Fine-grained zoom
 /// - Page navigation using the left and right arrows.
 class JustPDFView: PDFView {
     private var zoomIncrement: CGFloat = 0.02
-
     
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
@@ -73,27 +74,22 @@ class JustPDFView: PDFView {
         // Right arrow
         case 124:
             self.goToNextPage(self)
+        // Everything else
         default:
             super.keyDown(with: event)
         }
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if !event.modifierFlags.contains(.command) {
-            return super.performKeyEquivalent(with: event)
-        }
-        if let characters = event.charactersIgnoringModifiers {
+        if event.modifierFlags.contains(.command), let characters = event.charactersIgnoringModifiers {
             switch characters {
             case "=":
-                // Cmd + = pressed (zoom in)
                 zoomIn()
                 return true
             case "-":
-                // Cmd + - pressed (zoom out)
                 zoomOut()
                 return true
             case "0":
-                // Cmd + 0 pressed (reset zoom to fit)
                 resetZoom()
                 return true
             default:
