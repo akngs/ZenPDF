@@ -49,26 +49,16 @@ struct PDFViewer: NSViewRepresentable {
     @Binding var document: JustPDFDocument
 
     func makeNSView(context: Context) -> NSView {
-        let containerView = NSView()
         let pdfView = JustPDFView()
         pdfView.autoScales = true
         pdfView.displaysPageBreaks = false
         pdfView.displayMode = .singlePage
         pdfView.translatesAutoresizingMaskIntoConstraints = false
-
-        containerView.addSubview(pdfView)
-        NSLayoutConstraint.activate([
-            pdfView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            pdfView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            pdfView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            pdfView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
-
-        return containerView
+        return pdfView
     }
 
     func updateNSView(_ nsView: NSView, context: Context) {
-        if let pdfView = nsView.subviews.first as? JustPDFView {
+        if let pdfView = nsView as? JustPDFView {
             pdfView.document = document.pdfDocument
         }
     }
@@ -151,15 +141,15 @@ class JustPDFView: PDFView {
         return super.performKeyEquivalent(with: event)
     }
     
-    private func zoomIn() {
+    func zoomIn() {
         scaleFactor = min(scaleFactor * (1.0 + zoomIncrement), maxScaleFactor)
     }
     
-    private func zoomOut() {
+    func zoomOut() {
         scaleFactor = max(scaleFactor * (1.0 - zoomIncrement), minScaleFactor)
     }
     
-    private func resetZoom() {
+    func resetZoom() {
         scaleFactor = scaleFactorForSizeToFit
     }
 }
