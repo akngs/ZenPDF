@@ -4,156 +4,97 @@ import Cocoa
 
 struct ContentView: View {
     @Binding var document: JustPDFDocument
-    @StateObject private var windowDelegate = WindowDelegate()
+    @ObservedObject var pdfViewerState: PDFViewerState
     
     var body: some View {
-        PDFViewer(document: $document)
+        ChromelessPDF(document: document.pdfDocument, pdfViewerState: pdfViewerState)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
             .ignoresSafeArea()
-            .onAppear {
-                for window in NSApplication.shared.windows {
-                    window.delegate = windowDelegate
-                    windowDelegate.applyWindowSettings(to: window)
-                }
-            }
     }
 }
 
-class WindowDelegate: NSObject, NSWindowDelegate, ObservableObject {
-    func windowDidBecomeKey(_ notification: Notification) {
-        if let window = notification.object as? NSWindow { applyWindowSettings(to: window) }
-    }
-    
-    func windowDidResignKey(_ notification: Notification) {
-        if let window = notification.object as? NSWindow { applyWindowSettings(to: window) }
-    }
-
-    func applyWindowSettings(to window: NSWindow) {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            window.titlebarAppearsTransparent = true
-            window.titleVisibility = .hidden
-            window.isMovableByWindowBackground = true
-            window.styleMask.insert(.fullSizeContentView)
-            window.backgroundColor = .clear
-
-            window.standardWindowButton(.closeButton)?.isHidden = true
-            window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-            window.standardWindowButton(.zoomButton)?.isHidden = true
-        }
-    }
+class PDFViewerState: ObservableObject {
+    @Published var command: PDFViewerCommand?
 }
 
-/// Chromeless PDF viewer
-struct PDFViewer: NSViewRepresentable {
-    @Binding var document: JustPDFDocument
+enum PDFViewerCommand {
+    case fitToWindow
+    case zoomIn
+    case zoomOut
+    case prevPage
+    case nextPage
+}
 
-    func makeNSView(context: Context) -> NSView {
+struct ChromelessPDF: NSViewRepresentable {
+    let document: PDFDocument?
+    @ObservedObject var pdfViewerState: PDFViewerState
+
+    func makeNSView(context: Context) -> JustPDFView {
         let pdfView = JustPDFView()
         pdfView.autoScales = true
         pdfView.displaysPageBreaks = false
         pdfView.displayMode = .singlePage
-        pdfView.translatesAutoresizingMaskIntoConstraints = false
+
+        DispatchQueue.main.async {
+            if let window = pdfView.window {
+                window.styleMask = [.borderless, .miniaturizable, .resizable, .closable]
+                window.isMovableByWindowBackground = true
+                window.titlebarAppearsTransparent = true
+                window.titleVisibility = .hidden
+                window.standardWindowButton(.closeButton)?.isHidden = true
+                window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+                window.standardWindowButton(.zoomButton)?.isHidden = true
+            }
+        }
+
         return pdfView
     }
 
-    func updateNSView(_ nsView: NSView, context: Context) {
-        if let pdfView = nsView as? JustPDFView {
-            pdfView.document = document.pdfDocument
+    func updateNSView(_ pdfView: JustPDFView, context: Context) {
+        pdfView.document = document
+        
+        if let command = pdfViewerState.command {
+            execute(command, on: pdfView)
+        }
+    }
+
+    func execute(_ command: PDFViewerCommand, on pdfView: JustPDFView) {
+        switch command {
+        case .fitToWindow:
+            pdfView.fitToWindow()
+        case .zoomIn:
+            pdfView.zoomIn()
+        case .zoomOut:
+            pdfView.zoomOut()
+        case .prevPage:
+            pdfView.goToPreviousPage(nil)
+        case .nextPage:
+            pdfView.goToNextPage(nil)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            pdfViewerState.command = nil
         }
     }
 }
 
-/// This view adds two things to the PDFView:
-///
-/// - Fine-grained zoom
-/// - Page navigation using the left and right arrows.
-///
 class JustPDFView: PDFView {
-    private var zoomIncrement: CGFloat = 0.02
-    
-    override init(frame: NSRect) {
-        super.init(frame: frame)
-        setupContentInsets()
-        NotificationCenter.default.addObserver(self, selector: #selector(pageDidChange(_:)), name: .PDFViewPageChanged, object: self)
-    }
+    private var zoomStep: CGFloat = 0.02
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupContentInsets()
-        NotificationCenter.default.addObserver(self, selector: #selector(pageDidChange(_:)), name: .PDFViewPageChanged, object: self)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .PDFViewPageChanged, object: self)
-    }
-
-    @objc private func pageDidChange(_ notification: Notification) {
-        adjustContentInsets()
-    }
-
-    private func setupContentInsets() {
-        adjustContentInsets()
-    }
-
-    // Without this code, goToPreviousPage() and goToNextPage() will shrink the content
-    private func adjustContentInsets() {
-        if let scrollView = subviews.first as? NSScrollView {
-            scrollView.automaticallyAdjustsContentInsets = false
-            scrollView.contentInsets = NSEdgeInsetsZero
-            scrollView.contentView.contentInsets = NSEdgeInsetsZero
-        }
-    }
-
-    override func keyDown(with event: NSEvent) {
-        switch event.keyCode {
-        case 126: // Up
-            goToPreviousPage(self)
-        case 123: // Left
-            goToPreviousPage(self)
-        case 125: // Down
-            goToNextPage(self)
-        case 124: // Right
-            goToNextPage(self)
-        case 32: // Space
-            event.modifierFlags.contains(.shift) ? goToPreviousPage(self) : goToNextPage(self)
-        default: // Everything else
-            super.keyDown(with: event)
-        }
-    }
-    
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if event.modifierFlags.contains(.command), let characters = event.charactersIgnoringModifiers {
-            switch characters {
-            case "=":
-                zoomIn()
-                return true
-            case "-":
-                zoomOut()
-                return true
-            case "0":
-                resetZoom()
-                return true
-            default:
-                break
-            }
-        }
-        return super.performKeyEquivalent(with: event)
-    }
-    
     func zoomIn() {
-        scaleFactor = min(scaleFactor * (1.0 + zoomIncrement), maxScaleFactor)
+        scaleFactor = min(scaleFactor * (1.0 + zoomStep), maxScaleFactor)
     }
     
     func zoomOut() {
-        scaleFactor = max(scaleFactor * (1.0 - zoomIncrement), minScaleFactor)
+        scaleFactor = max(scaleFactor * (1.0 - zoomStep), minScaleFactor)
     }
     
-    func resetZoom() {
+    func fitToWindow() {
         scaleFactor = scaleFactorForSizeToFit
     }
 }
 
 #Preview {
-    ContentView(document: .constant(JustPDFDocument()))
+    ContentView(document: .constant(JustPDFDocument()), pdfViewerState: PDFViewerState())
 }
