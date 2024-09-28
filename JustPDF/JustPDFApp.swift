@@ -1,24 +1,180 @@
 import SwiftUI
+import PDFKit
+import Cocoa
+import UniformTypeIdentifiers
 
 @main
 struct JustPDFApp: App {
-    @StateObject private var pdfViewerState = PDFViewerState()
-
     var body: some Scene {
-        DocumentGroup(newDocument: JustPDFDocument()) { file in
-            ContentView(document: file.$document, pdfViewerState: pdfViewerState)
+        DocumentGroup(viewing: Document.self) { file in
+            ContentView(document: file.document).background(WindowAccessor())
         }
         .commands {
-            // Add commands into "View" menu
+            // Remove "Save"
+            CommandGroup(replacing: .saveItem) {
+                Button("Close") { NSApp.keyWindow?.close() }
+                .keyboardShortcut("w")
+            }
+
             CommandGroup(after: .sidebar) {
-                Button("Fit to window") { pdfViewerState.command = .fitToWindow }.keyboardShortcut("0", modifiers: [.command])
-                Button("Zoom-in") { pdfViewerState.command = .zoomIn }.keyboardShortcut("=", modifiers: [.command])
-                Button("Zoom-out") { pdfViewerState.command = .zoomOut }.keyboardShortcut("-", modifiers: [.command])
+                Button("Reset zoom") { coord?.resetZoom() }
+                .keyboardShortcut("0")
+
+                Button("Zoom-in") { coord?.zoomIn() }
+                .keyboardShortcut("=")
+
+                Button("Zoom-out") { coord?.zoomOut() }
+                .keyboardShortcut("-")
+
                 Divider()
-                Button("Previous page") { pdfViewerState.command = .prevPage }.keyboardShortcut(.leftArrow, modifiers: [])
-                Button("Next page") { pdfViewerState.command = .nextPage }.keyboardShortcut(.rightArrow, modifiers: [])
+
+                Button("Previous page") { coord?.goToPreviousPage() }
+                .keyboardShortcut(.leftArrow, modifiers: [])
+                .disabled(coord == nil)
+
+                Button("Next page") { coord?.goToNextPage() }
+                .keyboardShortcut(.rightArrow, modifiers: [])
+                .disabled(coord == nil)
+
                 Divider()
             }
         }
+        .windowStyle(.hiddenTitleBar)
     }
+    
+    @FocusedValue(\.pdfCoord) var coord: PDFViewCoord?
+}
+
+struct WindowAccessor: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        DispatchQueue.main.async {
+            if let window = view.window {
+                let controller = NSWindowController(window: window)
+                controller.window?.delegate = context.coordinator
+                context.coordinator.updateWindowAppearance(window)
+            }
+        }
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    class Coordinator: NSObject, NSWindowDelegate {
+        func windowDidBecomeKey(_ notification: Notification) {
+            guard let window = notification.object as? NSWindow else { return }
+            updateWindowAppearance(window)
+        }
+
+        func windowDidResignKey(_ notification: Notification) {
+            guard let window = notification.object as? NSWindow else { return }
+            updateWindowAppearance(window)
+        }
+
+        func updateWindowAppearance(_ window: NSWindow) {
+            window.titleVisibility = .hidden
+            window.titlebarAppearsTransparent = true
+            window.styleMask.insert(.fullSizeContentView)
+            window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+            window.standardWindowButton(.zoomButton)?.isHidden = true
+            window.standardWindowButton(.closeButton)?.isHidden = true
+        }
+    }
+}
+
+struct ContentView: View {
+    let document: Document
+    @StateObject private var pdfCoordinator = PDFViewCoord()
+
+    var body: some View {
+        ChromelessPDF(pdf: document.pdf, coordinator: pdfCoordinator)
+            .ignoresSafeArea()
+            .focusedSceneValue(\.pdfCoord, pdfCoordinator)
+    }
+}
+
+struct ChromelessPDF: NSViewRepresentable {
+    let pdf: PDFDocument?
+    var coordinator: PDFViewCoord
+
+    func makeNSView(context: Context) -> PDFView {
+        let pdfView = TrickedPDFView()
+        pdfView.autoScales = true
+        pdfView.displaysPageBreaks = false
+        pdfView.displayMode = .singlePage
+        pdfView.shadow = .none
+        pdfView.pageShadowsEnabled = false
+        pdfView.backgroundColor = .black
+
+        coordinator.pdfView = pdfView
+
+        return pdfView
+    }
+    
+    func updateNSView(_ pdfView: PDFView, context: Context) {
+        pdfView.document = pdf
+    }
+
+    private class TrickedPDFView: PDFView {
+        override func layout() {
+            super.layout()
+            if let scrollView = self.subviews.first as? NSScrollView {
+                scrollView.automaticallyAdjustsContentInsets = false
+                scrollView.contentInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+            }
+        }
+        override func zoomIn(_ sender: Any?) { gradualZoom(isZoomingIn: true) }
+        override func zoomOut(_ sender: Any?) { gradualZoom(isZoomingIn: false) }
+        
+        private func gradualZoom(isZoomingIn: Bool) {
+            let zoomFactor: CGFloat = 1.05
+            let currentScale = self.scaleFactor
+            let newScale = isZoomingIn ? currentScale * zoomFactor : currentScale / zoomFactor
+            self.scaleFactor = min(max(newScale, minScaleFactor), maxScaleFactor)
+        }
+    }
+}
+
+class PDFViewCoord: ObservableObject {
+    weak var pdfView: PDFView?
+
+    func resetZoom() { pdfView?.scaleFactor = pdfView?.scaleFactorForSizeToFit ?? 1.0 }
+    func zoomIn() { pdfView?.zoomIn(nil) }
+    func zoomOut() { pdfView?.zoomOut(nil) }
+    func goToNextPage() { pdfView?.goToNextPage(nil) }
+    func goToPreviousPage() { pdfView?.goToPreviousPage(nil) }
+}
+
+struct PDFCoordKey: FocusedValueKey {
+    typealias Value = PDFViewCoord
+}
+
+extension FocusedValues {
+    var pdfCoord: PDFViewCoord? {
+        get { self[PDFCoordKey.self] }
+        set { self[PDFCoordKey.self] = newValue }
+    }
+}
+
+struct Document: FileDocument {
+    static var readableContentTypes: [UTType] { [.pdf] }
+
+    var pdf: PDFDocument?
+
+    init() { self.pdf = PDFDocument() }
+    init(configuration: ReadConfiguration) throws {
+        if let data = configuration.file.regularFileContents { pdf = PDFDocument(data: data) }
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        guard let pdf = pdf else { throw CocoaError(.fileReadCorruptFile) }
+        guard let data = pdf.dataRepresentation() else { throw CocoaError(.fileReadCorruptFile) }
+        return FileWrapper(regularFileWithContents: data)
+    }
+}
+
+#Preview {
+    ContentView(document: Document())
 }
