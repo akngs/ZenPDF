@@ -4,31 +4,30 @@ import Cocoa
 
 struct ContentView: View {
     @Binding var document: JustPDFDocument
-    @ObservedObject var pdfViewerState: PDFViewerState
-    
+    @ObservedObject var state: State
+
     var body: some View {
-        ChromelessPDF(document: document.pdfDocument, pdfViewerState: pdfViewerState)
+        ChromelessPDF(document: document.pdfDocument, pdfViewerState: state)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
             .ignoresSafeArea()
     }
 }
 
-class PDFViewerState: ObservableObject {
-    @Published var command: PDFViewerCommand?
-}
+class State: ObservableObject {
+    @Published var currentPage: Int = 0
+    @Published var scaleFactor: CGFloat = 1.0
 
-enum PDFViewerCommand {
-    case fitToWindow
-    case zoomIn
-    case zoomOut
-    case prevPage
-    case nextPage
+    func zoomIn() { scaleFactor *= 1.02 }
+    func zoomOut() { scaleFactor *= 0.98 }
+    func resetZoom() { scaleFactor = 1.0 }
+    func goToPreviousPage() { currentPage = max(currentPage - 1, 0) }
+    func goToNextPage() { currentPage += 1 }
 }
 
 struct ChromelessPDF: NSViewRepresentable {
     let document: PDFDocument?
-    @ObservedObject var pdfViewerState: PDFViewerState
+    @ObservedObject var pdfViewerState: State
 
     func makeNSView(context: Context) -> JustPDFView {
         let pdfView = JustPDFView()
@@ -45,6 +44,7 @@ struct ChromelessPDF: NSViewRepresentable {
                 window.standardWindowButton(.closeButton)?.isHidden = true
                 window.standardWindowButton(.miniaturizeButton)?.isHidden = true
                 window.standardWindowButton(.zoomButton)?.isHidden = true
+                pdfView.setScaleFactor(pdfViewerState.scaleFactor)
             }
         }
 
@@ -53,48 +53,23 @@ struct ChromelessPDF: NSViewRepresentable {
 
     func updateNSView(_ pdfView: JustPDFView, context: Context) {
         pdfView.document = document
-        
-        if let command = pdfViewerState.command {
-            execute(command, on: pdfView)
-        }
-    }
-
-    func execute(_ command: PDFViewerCommand, on pdfView: JustPDFView) {
-        switch command {
-        case .fitToWindow:
-            pdfView.fitToWindow()
-        case .zoomIn:
-            pdfView.zoomIn()
-        case .zoomOut:
-            pdfView.zoomOut()
-        case .prevPage:
-            pdfView.goToPreviousPage(nil)
-        case .nextPage:
-            pdfView.goToNextPage(nil)
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            pdfViewerState.command = nil
-        }
+        pdfView.goToPage(pdfViewerState.currentPage)
+        pdfView.setScaleFactor(pdfViewerState.scaleFactor)
     }
 }
 
 class JustPDFView: PDFView {
     private var zoomStep: CGFloat = 0.02
 
-    func zoomIn() {
-        scaleFactor = min(scaleFactor * (1.0 + zoomStep), maxScaleFactor)
+    func setScaleFactor(_ scaleFactor: CGFloat) {
+        self.scaleFactor = scaleFactorForSizeToFit * scaleFactor
     }
-    
-    func zoomOut() {
-        scaleFactor = max(scaleFactor * (1.0 - zoomStep), minScaleFactor)
-    }
-    
-    func fitToWindow() {
-        scaleFactor = scaleFactorForSizeToFit
+
+    func goToPage(_ pageNumber: Int) {
+        if let page = document?.page(at: pageNumber) { go(to:page) }
     }
 }
 
 #Preview {
-    ContentView(document: .constant(JustPDFDocument()), pdfViewerState: PDFViewerState())
+    ContentView(document: .constant(JustPDFDocument()), state: State())
 }

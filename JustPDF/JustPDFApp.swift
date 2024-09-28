@@ -2,21 +2,20 @@ import SwiftUI
 
 @main
 struct JustPDFApp: App {
-    @StateObject private var pdfViewerState = PDFViewerState()
+    @StateObject private var state = State()
 
     var body: some Scene {
         DocumentGroup(newDocument: JustPDFDocument()) { file in
-            ContentView(document: file.$document, pdfViewerState: pdfViewerState)
+            ContentView(document: file.$document, state: state)
         }
         .commands {
-            // Add commands into "View" menu
             CommandGroup(after: .sidebar) {
-                Button("Fit to window") { pdfViewerState.command = .fitToWindow }.keyboardShortcut("0", modifiers: [.command])
-                Button("Zoom-in") { pdfViewerState.command = .zoomIn }.keyboardShortcut("=", modifiers: [.command])
-                Button("Zoom-out") { pdfViewerState.command = .zoomOut }.keyboardShortcut("-", modifiers: [.command])
+                Button("Reset zoom") { state.resetZoom() }.keyboardShortcut("0", modifiers: [.command])
+                Button("Zoom-in") { state.zoomIn() }.keyboardShortcut("=", modifiers: [.command])
+                Button("Zoom-out") { state.zoomOut() }.keyboardShortcut("-", modifiers: [.command])
                 Divider()
-                Button("Previous page") { pdfViewerState.command = .prevPage }.keyboardShortcut(.leftArrow, modifiers: [])
-                Button("Next page") { pdfViewerState.command = .nextPage }.keyboardShortcut(.rightArrow, modifiers: [])
+                Button("Previous page") { state.goToPreviousPage() }.keyboardShortcut(.leftArrow, modifiers: [])
+                Button("Next page") { state.goToNextPage() }.keyboardShortcut(.rightArrow, modifiers: [])
                 Divider()
             }
         }
