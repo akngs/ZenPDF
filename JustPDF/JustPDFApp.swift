@@ -52,7 +52,7 @@ struct WindowAccessor: NSViewRepresentable {
             if let window = view.window {
                 let controller = NSWindowController(window: window)
                 controller.window?.delegate = context.coordinator
-                context.coordinator.updateWindowAppearance(window)
+                context.coordinator.configureWindowAppearance(window)
             }
         }
         return view
@@ -65,15 +65,15 @@ struct WindowAccessor: NSViewRepresentable {
     class Coordinator: NSObject, NSWindowDelegate {
         func windowDidBecomeKey(_ notification: Notification) {
             guard let window = notification.object as? NSWindow else { return }
-            updateWindowAppearance(window)
+            configureWindowAppearance(window)
         }
 
         func windowDidResignKey(_ notification: Notification) {
             guard let window = notification.object as? NSWindow else { return }
-            updateWindowAppearance(window)
+            configureWindowAppearance(window)
         }
 
-        func updateWindowAppearance(_ window: NSWindow) {
+        func configureWindowAppearance(_ window: NSWindow) {
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
             window.styleMask.insert(.fullSizeContentView)
@@ -118,6 +118,8 @@ struct ChromelessPDF: NSViewRepresentable {
     }
 
     private class TrickedPDFView: PDFView {
+        private let ZOOM_FACTOR: CGFloat = 1.05
+
         override func layout() {
             super.layout()
             if let scrollView = self.subviews.first as? NSScrollView {
@@ -125,13 +127,12 @@ struct ChromelessPDF: NSViewRepresentable {
                 scrollView.contentInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
             }
         }
+
         override func zoomIn(_ sender: Any?) { gradualZoom(isZoomingIn: true) }
         override func zoomOut(_ sender: Any?) { gradualZoom(isZoomingIn: false) }
         
         private func gradualZoom(isZoomingIn: Bool) {
-            let zoomFactor: CGFloat = 1.05
-            let currentScale = self.scaleFactor
-            let newScale = isZoomingIn ? currentScale * zoomFactor : currentScale / zoomFactor
+            let newScale = isZoomingIn ? self.scaleFactor * ZOOM_FACTOR : self.scaleFactor / ZOOM_FACTOR
             self.scaleFactor = min(max(newScale, minScaleFactor), maxScaleFactor)
         }
     }
