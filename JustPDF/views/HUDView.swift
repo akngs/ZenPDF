@@ -1,7 +1,7 @@
 import SwiftUI
 /// HUD showing the page number
 struct HUDView: View {
-    var state: PDFViewState
+    var state: DocumentState
 
     var body: some View {
         VStack {
@@ -21,5 +21,5 @@ struct HUDView: View {
 }
 
 #Preview {
-    HUDView(state: PDFViewState())
+    HUDView(state: DocumentState())
 }
