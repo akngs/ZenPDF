@@ -21,6 +21,7 @@ struct MinimalPDFView: NSViewRepresentable {
     
     func updateNSView(_ pdfView: PDFView, context: Context) {
         pdfView.document = pdf
+        state.pdf = pdf
     }
     
     private class GraduallyZoomablePDFView: PDFView {

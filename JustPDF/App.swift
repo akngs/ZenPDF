@@ -4,7 +4,8 @@ import SwiftUI
 struct JustPDFApp: App {
     var body: some Scene {
         DocumentGroup(viewing: Document.self) { file in
-            MainView(document: file.document).background(WindowAccessor())
+            MainView(document: file.document)
+                .background(WindowAccessor())
         }
         .commands {
             CommandGroup(after: .sidebar) {
