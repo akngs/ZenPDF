@@ -2,10 +2,20 @@ import SwiftUI
 
 @main
 struct JustPDFApp: App {
+    @State private var showGoToPageDialog = false
+    @State private var goToPageNumber = "1"
+
     var body: some Scene {
         DocumentGroup(viewing: Document.self) { file in
             MainView(document: file.document)
                 .background(WindowAccessor())
+                .sheet(isPresented: $showGoToPageDialog) {
+                    GoToPageDialog(
+                        isPresented: $showGoToPageDialog,
+                        pageNumber: $goToPageNumber,
+                        onSubmit: { page in state?.goToPage(at: page) }
+                    )
+                }
         }
         .commands {
             CommandGroup(after: .sidebar) {
@@ -27,7 +37,16 @@ struct JustPDFApp: App {
                 Button("Next page") { state?.goToNextPage() }
                     .keyboardShortcut(.rightArrow, modifiers: [])
                     .disabled(state == nil)
-                
+
+                Button("Go to page...") {
+                    if let pageNum = state?.pageNum {
+                        goToPageNumber = "\(pageNum)"
+                        showGoToPageDialog = true
+                    }
+                }
+                    .keyboardShortcut("g")
+                    .disabled(state == nil)
+
                 Divider()
             }
         }
