@@ -11,24 +11,24 @@ struct JustPDFApp: App {
         }
         .commands {
             CommandGroup(after: .sidebar) {
-                Button("Reset zoom") { coord?.resetZoom() }
+                Button("Reset zoom") { state?.resetZoom() }
                     .keyboardShortcut("0")
                 
-                Button("Zoom-in") { coord?.zoomIn() }
+                Button("Zoom-in") { state?.zoomIn() }
                     .keyboardShortcut("=")
                 
-                Button("Zoom-out") { coord?.zoomOut() }
+                Button("Zoom-out") { state?.zoomOut() }
                     .keyboardShortcut("-")
                 
                 Divider()
                 
-                Button("Previous page") { coord?.goToPreviousPage() }
+                Button("Previous page") { state?.goToPreviousPage() }
                     .keyboardShortcut(.leftArrow, modifiers: [])
-                    .disabled(coord == nil)
+                    .disabled(state == nil)
                 
-                Button("Next page") { coord?.goToNextPage() }
+                Button("Next page") { state?.goToNextPage() }
                     .keyboardShortcut(.rightArrow, modifiers: [])
-                    .disabled(coord == nil)
+                    .disabled(state == nil)
                 
                 Divider()
             }
@@ -36,7 +36,7 @@ struct JustPDFApp: App {
         .windowStyle(.hiddenTitleBar)
     }
     
-    @FocusedValue(\.pdfCoord) var coord: PDFViewCoord?
+    @FocusedValue(\.state) var state: PDFViewState?
 }
 
 struct WindowAccessor: NSViewRepresentable {
@@ -75,18 +75,21 @@ struct WindowAccessor: NSViewRepresentable {
 
 struct ContentView: View {
     let document: Document
-    @StateObject private var pdfCoordinator = PDFViewCoord()
+    @State private var state = PDFViewState()
     
     var body: some View {
-        ChromelessPDF(pdf: document.pdf, coordinator: pdfCoordinator)
+        ChromelessPDF(pdf: document.pdf, state: state)
             .ignoresSafeArea()
-            .focusedSceneValue(\.pdfCoord, pdfCoordinator)
+            .focusedSceneValue(\.state, state)
+            .overlay {
+                HUDView(state: state)
+            }
     }
 }
 
 struct ChromelessPDF: NSViewRepresentable {
     let pdf: PDFDocument?
-    var coordinator: PDFViewCoord
+    var state: PDFViewState
     
     func makeNSView(context: Context) -> PDFView {
         let pdfView = TrickedPDFView()
@@ -95,9 +98,8 @@ struct ChromelessPDF: NSViewRepresentable {
         pdfView.displayMode = .singlePage
         pdfView.shadow = .none
         pdfView.pageShadowsEnabled = false
-        pdfView.backgroundColor = .black
         
-        coordinator.pdfView = pdfView
+        state.pdfView = pdfView
         
         return pdfView
     }
@@ -127,24 +129,34 @@ struct ChromelessPDF: NSViewRepresentable {
     }
 }
 
-class PDFViewCoord: ObservableObject {
+@Observable
+class PDFViewState {
     weak var pdfView: PDFView?
-    
+    var pageNum: Int = 1
+
     func resetZoom() { pdfView?.scaleFactor = pdfView?.scaleFactorForSizeToFit ?? 1.0 }
     func zoomIn() { pdfView?.zoomIn(nil) }
     func zoomOut() { pdfView?.zoomOut(nil) }
-    func goToNextPage() { pdfView?.goToNextPage(nil) }
-    func goToPreviousPage() { pdfView?.goToPreviousPage(nil) }
+
+    func goToNextPage() {
+        pdfView?.goToNextPage(nil)
+        pageNum = pdfView?.currentPage?.pageRef?.pageNumber ?? pageNum
+    }
+
+    func goToPreviousPage() {
+        pdfView?.goToPreviousPage(nil)
+        pageNum = pdfView?.currentPage?.pageRef?.pageNumber ?? pageNum
+    }
 }
 
-struct PDFCoordKey: FocusedValueKey {
-    typealias Value = PDFViewCoord
+struct PDFViewStateKey: FocusedValueKey {
+    typealias Value = PDFViewState
 }
 
 extension FocusedValues {
-    var pdfCoord: PDFViewCoord? {
-        get { self[PDFCoordKey.self] }
-        set { self[PDFCoordKey.self] = newValue }
+    var state: PDFViewState? {
+        get { self[PDFViewStateKey.self] }
+        set { self[PDFViewStateKey.self] = newValue }
     }
 }
 
