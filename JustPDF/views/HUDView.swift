@@ -26,8 +26,8 @@ struct HUDView: View {
     }
 
     private func updateHUD() {
-        withAnimation(.easeIn(duration: 0.3)) { opacity = 1 }
-        withAnimation(.easeOut(duration: 0.3).delay(1)) { opacity = 0}
+        withAnimation(.easeIn(duration: 0.1)) { opacity = 1 }
+        withAnimation(.easeOut(duration: 0.4).delay(1.5)) { opacity = 0}
     }
 }
 
