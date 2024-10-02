@@ -74,7 +74,7 @@ class DocumentState {
         if savedScaleFactor > 0 {
             pdfView.scaleFactor = CGFloat(savedScaleFactor)
         } else {
-            pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
+            pdfView.scaleFactor = 1.0
         }
         
         if let savedPageNum = UserDefaults.standard.object(forKey: "\(docId)/pageNum") as? Int {

@@ -7,10 +7,10 @@ JustPDF is just a PDF viewer for macOS.
 ## Features
 
 - No title bar
-- No decoration
-- No margin
+- No decorations
+- No margins
 - No ads
-- No tracking
+- No trackers
 - No bullshit
 
 ## Shortcuts
