@@ -7,7 +7,7 @@ class DocumentState {
     weak var pdfView: PDFView?
     weak var pdf: PDFDocument? {
         didSet {
-            guard let pdf = pdf else { return }
+            guard let pdf else { return }
             docId = generateDocId(for: pdf)
             loadState()
         }
@@ -18,8 +18,7 @@ class DocumentState {
     var pageNum: Int = 1
     
     func resetZoom() {
-        guard let pdfView = pdfView else { return }
-        
+        guard let pdfView else { return }
         pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
         updateState()
     }
@@ -35,19 +34,19 @@ class DocumentState {
     }
     
     func goToNextPage() {
-        guard let pdfView = pdfView, pdfView.canGoToNextPage else { return }
+        guard let pdfView, pdfView.canGoToNextPage else { return }
         pdfView.goToNextPage(nil)
         updateState()
     }
     
     func goToPreviousPage() {
-        guard let pdfView = pdfView, pdfView.canGoToPreviousPage else { return }
+        guard let pdfView, pdfView.canGoToPreviousPage else { return }
         pdfView.goToPreviousPage(nil)
         updateState()
     }
     
     func goToPage(at pageNum: Int) {
-        guard let pdfView = pdfView,
+        guard let pdfView,
               let document = pdfView.document,
               let page = document.page(at: pageNum - 1) else { return }
         
@@ -56,19 +55,19 @@ class DocumentState {
     }
     
     private func updateState() {
-        guard let pdfView = pdfView else { return }
+        guard let pdfView else { return }
 
         scaleFactor = pdfView.scaleFactor
         pageNum = pdfView.currentPage?.pageRef?.pageNumber ?? pageNum
 
-        if let docId = docId {
+        if let docId {
             UserDefaults.standard.set(Float(scaleFactor), forKey: "\(docId)/scaleFactor")
             UserDefaults.standard.set(pageNum, forKey: "\(docId)/pageNum")
         }
     }
 
     private func loadState() {
-        guard let docId = docId, let pdfView = pdfView else { return }
+        guard let docId, let pdfView else { return }
            
         let savedScaleFactor = UserDefaults.standard.float(forKey: "\(docId)/scaleFactor")
         if savedScaleFactor > 0 {
