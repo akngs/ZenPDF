@@ -1,59 +1,62 @@
 import SwiftUI
+@preconcurrency import PDFKit
+import UniformTypeIdentifiers
+import CryptoKit
 
 @main
 struct JustPDFApp: App {
+    @FocusedValue(\.docState) var docState: DocState?
     @State private var showGoToPageDialog = false
-    @State private var goToPageNumber = "1"
+    @State private var goToPageNum = "1"
 
     var body: some Scene {
         DocumentGroup(viewing: Document.self) { file in
-            MainView(document: file.document)
+            MainView(doc: file.document)
                 .background(WindowAccessor())
+                .modelContainer(for: [DocState.self])
                 .sheet(isPresented: $showGoToPageDialog) {
                     GoToPageDialog(
                         isPresented: $showGoToPageDialog,
-                        pageNumber: $goToPageNumber,
-                        onSubmit: { page in state?.goToPage(at: page) }
+                        pageNum: $goToPageNum,
+                        onSubmit: { page in docState?.pageNum = page }
                     )
                 }
         }
         .commands {
             CommandGroup(after: .sidebar) {
-                Button("Reset zoom") { state?.resetZoom() }
+                Button("Reset zoom") { docState?.scaleFactor = 1.0 }
                     .keyboardShortcut("0")
                 
-                Button("Zoom-in") { state?.zoomIn() }
+                Button("Zoom-in") { docState?.scaleFactor += 0.05 }
                     .keyboardShortcut("=")
                 
-                Button("Zoom-out") { state?.zoomOut() }
+                Button("Zoom-out") { docState?.scaleFactor -= 0.05 }
                     .keyboardShortcut("-")
                 
                 Divider()
                 
-                Button("Previous page") { state?.goToPreviousPage() }
+                Button("Previous page") { docState?.pageNum -= 1 }
                     .keyboardShortcut(.leftArrow, modifiers: [])
-                    .disabled(state == nil)
+                    .disabled(docState == nil)
                 
-                Button("Next page") { state?.goToNextPage() }
+                Button("Next page") { docState?.pageNum += 1 }
                     .keyboardShortcut(.rightArrow, modifiers: [])
-                    .disabled(state == nil)
+                    .disabled(docState == nil)
 
                 Button("Go to page...") {
-                    if let pageNum = state?.pageNum {
-                        goToPageNumber = "\(pageNum)"
+                    if let pageNum = docState?.pageNum {
+                        goToPageNum = "\(pageNum)"
                         showGoToPageDialog = true
                     }
                 }
-                    .keyboardShortcut("g")
-                    .disabled(state == nil)
+                .keyboardShortcut("g")
+                .disabled(docState == nil)
 
                 Divider()
             }
         }
         .windowStyle(.hiddenTitleBar)
     }
-    
-    @FocusedValue(\.state) var state: DocumentState?
 }
 
 struct WindowAccessor: NSViewRepresentable {
@@ -79,7 +82,7 @@ struct WindowAccessor: NSViewRepresentable {
             configureWindowAppearance(window)
         }
         
-        func configureWindowAppearance(_ window: NSWindow) {
+        @MainActor func configureWindowAppearance(_ window: NSWindow) {
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
             window.styleMask.insert(.fullSizeContentView)
@@ -90,6 +93,44 @@ struct WindowAccessor: NSViewRepresentable {
     }
 }
 
+struct Document: FileDocument {
+    static var readableContentTypes: [UTType] { [.pdf] }
+    
+    let id: String
+    let pdf: PDFDocument
+    
+    init() {
+        self.id = "Untitled"
+        self.pdf = PDFDocument()
+    }
+    
+    init(configuration: ReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents else { throw DocumentError.unableToReadFile }
+        guard let pdf = PDFDocument(data: data) else { throw DocumentError.invalidPDFData }
+        
+        self.id = Document.generateId(document: pdf, filename: configuration.file.filename)
+        self.pdf = pdf
+    }
+    
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        throw DocumentError.readonly
+    }
+    
+    private static func generateId(document: PDFDocument, filename: String?) -> String {
+        let pageCount = document.pageCount
+        let text0 = document.page(at: 0)?.string ?? ""
+        let text1 = document.page(at: 1)?.string ?? ""
+        let identifier = "\(filename ?? "Untitled")_\(pageCount)_\(text0)_\(text1)"
+        return SHA256.hash(data: Data(identifier.utf8)).compactMap { String(format: "%02x", $0) }.joined()
+    }
+}
+
+enum DocumentError: Error {
+    case unableToReadFile
+    case invalidPDFData
+    case readonly
+}
+
 #Preview {
-    MainView(document: Document())
+    MainView(doc: Document())
 }

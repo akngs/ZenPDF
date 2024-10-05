@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HUDView: View {
-    var state: DocumentState
+    var pageNum: Int
     @State private var opacity: Double = 0
 
     var body: some View {
@@ -9,7 +9,7 @@ struct HUDView: View {
             Spacer()
             HStack {
                 Spacer()
-                Text("\(state.pageNum)")
+                Text("\(pageNum)")
                     .font(.system(size: 16, weight: .medium, design: .default))
                     .monospacedDigit()
                     .padding(.vertical, 5)
@@ -21,7 +21,7 @@ struct HUDView: View {
                     .opacity(opacity)
             }
         }
-        .onChange(of: state.pageNum) { oldValue, newValue in updateHUD() }
+        .onChange(of: pageNum) { oldValue, newValue in updateHUD() }
         .onAppear { updateHUD() }
     }
 
@@ -32,5 +32,5 @@ struct HUDView: View {
 }
 
 #Preview {
-    HUDView(state: DocumentState())
+    HUDView(pageNum: 132)
 }
