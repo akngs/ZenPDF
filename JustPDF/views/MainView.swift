@@ -9,7 +9,7 @@ struct MainView: View {
 
     var body: some View {
         let docState = docStates.first(where: { $0.id == doc.id }) ?? {
-            let newState = DocState(id: doc.id, scaleFactor: 1.0, pageNum: 1)
+            let newState = DocState(id: doc.id, scaleFactor: 1.0, pageNum: 1, totalPages: doc.pdf.pageCount)
             modelContext.insert(newState)
             return newState
         }()

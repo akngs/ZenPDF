@@ -18,28 +18,28 @@ struct JustPDFApp: App {
                     GoToPageDialog(
                         isPresented: $showGoToPageDialog,
                         pageNum: $goToPageNum,
-                        onSubmit: { page in docState?.pageNum = page }
+                        onSubmit: { page in docState?.goToPage(at: page) }
                     )
                 }
         }
         .commands {
             CommandGroup(after: .sidebar) {
-                Button("Reset zoom") { docState?.scaleFactor = 1.0 }
+                Button("Reset zoom") { docState?.resetZoom() }
                     .keyboardShortcut("0")
                 
-                Button("Zoom-in") { docState?.scaleFactor += 0.05 }
+                Button("Zoom-in") { docState?.zoomIn() }
                     .keyboardShortcut("=")
                 
-                Button("Zoom-out") { docState?.scaleFactor -= 0.05 }
+                Button("Zoom-out") { docState?.zoomOut() }
                     .keyboardShortcut("-")
                 
                 Divider()
                 
-                Button("Previous page") { docState?.pageNum -= 1 }
+                Button("Previous page") { docState?.prevPage() }
                     .keyboardShortcut(.leftArrow, modifiers: [])
                     .disabled(docState == nil)
                 
-                Button("Next page") { docState?.pageNum += 1 }
+                Button("Next page") { docState?.nextPage() }
                     .keyboardShortcut(.rightArrow, modifiers: [])
                     .disabled(docState == nil)
 

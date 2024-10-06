@@ -17,7 +17,8 @@ struct MinimalPDFView: NSViewRepresentable {
         
         if let doc, let page = doc.page(at: docState.pageNum - 1) {
             pdfView.go(to: page)
-            pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit * docState.scaleFactor
+            // TODO: pdfView.scaleFactorForSizeToFit is zero right after the doc has opened
+            pdfView.scaleFactor = docState.scaleFactor * max(pdfView.scaleFactorForSizeToFit, 1.0)
         }
 
         context.coordinator.registerForNotifications(pdfView: pdfView)
@@ -31,7 +32,8 @@ struct MinimalPDFView: NSViewRepresentable {
            let page = doc.page(at: docState.pageNum - 1) {
 
             pdfView.go(to: page)
-            pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit * docState.scaleFactor
+            // TODO: pdfView.scaleFactorForSizeToFit is zero right after the doc has opened
+            pdfView.scaleFactor = docState.scaleFactor * max(pdfView.scaleFactorForSizeToFit, 1.0)
         }
     }
 
@@ -64,12 +66,12 @@ struct MinimalPDFView: NSViewRepresentable {
             guard let pdfView = notification.object as? PDFView,
                   let currentPage = pdfView.currentPage,
                   let doc = pdfView.document else { return }
-            parent.docState.pageNum = doc.index(for: currentPage) + 1
+            parent.docState.goToPage(at: doc.index(for: currentPage) + 1)
         }
         
         @MainActor @objc func scaleChanged(_ notification: Notification) {
             guard let pdfView = notification.object as? PDFView else { return }
-            parent.docState.scaleFactor = pdfView.scaleFactor / pdfView.scaleFactorForSizeToFit
+            parent.docState.setZoom(to: pdfView.scaleFactor / pdfView.scaleFactorForSizeToFit)
         }
     }
     
@@ -85,5 +87,5 @@ struct MinimalPDFView: NSViewRepresentable {
 }
 
 #Preview {
-    MinimalPDFView(doc: nil, docState: DocState(id: "Untitled", scaleFactor: 1.0, pageNum: 1))
+    MinimalPDFView(doc: nil, docState: DocState(id: "Untitled", scaleFactor: 1.0, pageNum: 1, totalPages: 10))
 }
