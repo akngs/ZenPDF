@@ -10,7 +10,7 @@ struct GoToPageDialog: View {
     var body: some View {
         VStack(spacing: 20) {
             HStack() {
-                Text("Go to page:")
+                Text("Go to page (1 to \(docState.totalPages)):")
                 TextField("Page number", text: $pageNumText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 60)

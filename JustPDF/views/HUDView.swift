@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HUDView: View {
     var pageNum: Int
+    var totalPages: Int
     @State private var opacity: Double = 0
 
     var body: some View {
@@ -9,8 +10,8 @@ struct HUDView: View {
             Spacer()
             HStack {
                 Spacer()
-                Text("\(pageNum)")
-                    .font(.system(size: 16, weight: .medium, design: .default))
+                Text("\(pageNum) / \(totalPages)")
+                    .font(.system(size: 12, weight: .medium, design: .default))
                     .monospacedDigit()
                     .padding(.vertical, 5)
                     .padding(.horizontal, 10)
@@ -32,5 +33,5 @@ struct HUDView: View {
 }
 
 #Preview {
-    HUDView(pageNum: 132)
+    HUDView(pageNum: 12, totalPages: 356)
 }
