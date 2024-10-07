@@ -2,7 +2,7 @@
 
 JustPDF is just a PDF viewer for macOS.
 
-![JustPDF](./comparison.png)
+![Comparison](./comparison.webp)
 
 ## Features
 

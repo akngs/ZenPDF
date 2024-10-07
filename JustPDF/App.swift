@@ -73,9 +73,9 @@ struct WindowAccessor: NSViewRepresentable {
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
             window.styleMask.insert(.fullSizeContentView)
-            window.standardWindowButton(.miniaturizeButton)?.layer?.opacity = 0.25
-            window.standardWindowButton(.zoomButton)?.layer?.opacity = 0.25
-            window.standardWindowButton(.closeButton)?.layer?.opacity = 0.25
+            window.standardWindowButton(.zoomButton)?.layer?.opacity = 0.2
+            window.standardWindowButton(.miniaturizeButton)?.layer?.opacity = 0.3
+            window.standardWindowButton(.closeButton)?.layer?.opacity = 0.4
         }
     }
 }
