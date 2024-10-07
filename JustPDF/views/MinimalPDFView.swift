@@ -1,7 +1,6 @@
 import SwiftUI
 import PDFKit
 
-/// PDFView without shadow and margins
 struct MinimalPDFView: NSViewRepresentable {
     let doc: PDFDocument?
     var docState: DocState
@@ -15,12 +14,6 @@ struct MinimalPDFView: NSViewRepresentable {
         pdfView.pageShadowsEnabled = false
         pdfView.document = doc
         
-        if let doc, let page = doc.page(at: docState.pageNum - 1) {
-            pdfView.go(to: page)
-            // TODO: pdfView.scaleFactorForSizeToFit is zero right after the doc has opened
-            pdfView.scaleFactor = docState.scaleFactor * max(pdfView.scaleFactorForSizeToFit, 1.0)
-        }
-
         context.coordinator.registerForNotifications(pdfView: pdfView)
 
         return pdfView
@@ -28,13 +21,7 @@ struct MinimalPDFView: NSViewRepresentable {
 
     func updateNSView(_ pdfView: PDFView, context: Context) {
         pdfView.document = doc
-        if let doc,
-           let page = doc.page(at: docState.pageNum - 1) {
-
-            pdfView.go(to: page)
-            // TODO: pdfView.scaleFactorForSizeToFit is zero right after the doc has opened
-            pdfView.scaleFactor = docState.scaleFactor * max(pdfView.scaleFactorForSizeToFit, 1.0)
-        }
+        context.coordinator.updatePDFView(pdfView)
     }
 
     func makeCoordinator() -> Coordinator { Coordinator(self) }
@@ -55,11 +42,14 @@ struct MinimalPDFView: NSViewRepresentable {
                                                    selector: #selector(scaleChanged(_:)),
                                                    name: .PDFViewScaleChanged,
                                                    object: pdfView)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(boundsChanged(_:)),
+                                                   name: NSView.frameDidChangeNotification,
+                                                   object: pdfView)
         }
         
         deinit {
-            NotificationCenter.default.removeObserver(self, name: .PDFViewPageChanged, object: nil)
-            NotificationCenter.default.removeObserver(self, name: .PDFViewScaleChanged, object: nil)
+            NotificationCenter.default.removeObserver(self)
         }
         
         @MainActor @objc func pageChanged(_ notification: Notification) {
@@ -71,7 +61,20 @@ struct MinimalPDFView: NSViewRepresentable {
         
         @MainActor @objc func scaleChanged(_ notification: Notification) {
             guard let pdfView = notification.object as? PDFView else { return }
-            parent.docState.setZoom(to: pdfView.scaleFactor / pdfView.scaleFactorForSizeToFit)
+            pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
+        }
+        
+        @MainActor @objc func boundsChanged(_ notification: Notification) {
+            guard let pdfView = notification.object as? PDFView else { return }
+            pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
+        }
+        
+        @MainActor func updatePDFView(_ pdfView: PDFView) {
+            if let doc = parent.doc,
+               let page = doc.page(at: parent.docState.pageNum - 1) {
+                pdfView.go(to: page)
+                pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
+            }
         }
     }
     
