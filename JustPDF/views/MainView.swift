@@ -3,6 +3,7 @@ import SwiftData
 
 struct MainView: View {
     let doc: Document
+    @State var showGotoDialog = false
 
     @Query private var docStates: [DocState]
     @Environment(\.modelContext) private var modelContext
@@ -19,5 +20,13 @@ struct MainView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay { HUDView(pageNum: docState.pageNum) }
             .focusedSceneValue(\.docState, docState)
+            .focusedSceneValue(\.showGotoDialog, $showGotoDialog)
+            .sheet(isPresented: $showGotoDialog) {
+                GoToPageDialog(
+                    isPresented: $showGotoDialog,
+                    docState: docState,
+                    pageNumText: "\(docState.pageNum)"
+                )
+            }
     }
 }

@@ -43,7 +43,7 @@ final class DocState {
         pageNum = max(pageNum - 1, 1)
     }
     
-    func goToPage(at targetPageNum: Int) {
+    func gotoPage(at targetPageNum: Int) {
         if 0 < targetPageNum && targetPageNum <= totalPages { pageNum = targetPageNum }
     }
     
@@ -53,16 +53,5 @@ final class DocState {
     
     func isValid(scaleFactor: CGFloat) -> Bool {
         return DocState.MIN_SCALE_FACTOR < scaleFactor && scaleFactor <= DocState.MAX_SCALE_FACTOR
-    }
-}
-
-struct DocStateKey: FocusedValueKey {
-    typealias Value = DocState
-}
-
-extension FocusedValues {
-    var docState: DocState? {
-        get { self[DocStateKey.self] }
-        set { self[DocStateKey.self] = newValue }
     }
 }

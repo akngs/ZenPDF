@@ -2,9 +2,8 @@ import SwiftUI
 
 struct GoToPageDialog: View {
     @Binding var isPresented: Bool
-    @Binding var pageNum: String
-    var onSubmit: (Int) -> Void
-
+    @State var docState: DocState
+    @State var pageNumText: String
     @State private var isInputValid = false
     @FocusState private var isTextFieldFocused: Bool
 
@@ -12,21 +11,19 @@ struct GoToPageDialog: View {
         VStack(spacing: 20) {
             HStack() {
                 Text("Go to page:")
-                TextField("Page number", text: $pageNum)
+                TextField("Page number", text: $pageNumText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 60)
                     .focused($isTextFieldFocused)
-                    .onChange(of: pageNum) { oldValue, newValue in
-                        isInputValid = Int(newValue) != nil && Int(newValue)! > 0
-                    }
-                    .onSubmit(submitIfValid)
+                    .onChange(of: pageNumText) { isInputValid = docState.isValid(pageNum: Int(pageNumText) ?? 0) }
+                    .onSubmit { onSubmit() }
             }
             
             HStack() {
                 Button("Cancel") { isPresented = false }
                     .keyboardShortcut(.cancelAction)
                 
-                Button("Go") { submitIfValid() }
+                Button("Go") { onSubmit() }
                     .keyboardShortcut(.defaultAction)
                     .disabled(!isInputValid)
             }
@@ -35,14 +32,10 @@ struct GoToPageDialog: View {
         .onAppear { isTextFieldFocused = true }
     }
     
-    private func submitIfValid() {
-        if let page = Int(pageNum), page > 0 {
-            onSubmit(page)
+    func onSubmit() {
+        if let pageNum = Int(pageNumText), docState.isValid(pageNum: pageNum) {
+            docState.gotoPage(at: pageNum)
             isPresented = false
         }
     }
-}
-
-#Preview {
-    GoToPageDialog(isPresented: .constant(true), pageNum: .constant("1"), onSubmit: { _ in })
 }

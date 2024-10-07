@@ -6,21 +6,13 @@ import CryptoKit
 @main
 struct JustPDFApp: App {
     @FocusedValue(\.docState) var docState: DocState?
-    @State private var showGoToPageDialog = false
-    @State private var goToPageNum = "1"
+    @FocusedBinding(\.showGotoDialog) var showGotoDialog
 
     var body: some Scene {
         DocumentGroup(viewing: Document.self) { file in
             MainView(doc: file.document)
                 .background(WindowAccessor())
                 .modelContainer(for: [DocState.self])
-                .sheet(isPresented: $showGoToPageDialog) {
-                    GoToPageDialog(
-                        isPresented: $showGoToPageDialog,
-                        pageNum: $goToPageNum,
-                        onSubmit: { page in docState?.goToPage(at: page) }
-                    )
-                }
         }
         .commands {
             CommandGroup(after: .sidebar) {
@@ -43,14 +35,9 @@ struct JustPDFApp: App {
                     .keyboardShortcut(.rightArrow, modifiers: [])
                     .disabled(docState == nil)
 
-                Button("Go to page...") {
-                    if let pageNum = docState?.pageNum {
-                        goToPageNum = "\(pageNum)"
-                        showGoToPageDialog = true
-                    }
-                }
-                .keyboardShortcut("g")
-                .disabled(docState == nil)
+                Button("Go to page...") { showGotoDialog? = true }
+                    .keyboardShortcut("g")
+                    .disabled(docState == nil)
 
                 Divider()
             }
@@ -129,6 +116,26 @@ enum DocumentError: Error {
     case unableToReadFile
     case invalidPDFData
     case readonly
+}
+
+struct DocStateKey: FocusedValueKey {
+    typealias Value = DocState
+}
+
+struct ShowGotoDialogKey: FocusedValueKey {
+    typealias Value = Binding<Bool>
+}
+
+extension FocusedValues {
+    var docState: DocState? {
+        get { self[DocStateKey.self] }
+        set { self[DocStateKey.self] = newValue }
+    }
+    
+    var showGotoDialog: Binding<Bool>? {
+        get { self[ShowGotoDialogKey.self] }
+        set { self[ShowGotoDialogKey.self] = newValue }
+    }
 }
 
 #Preview {

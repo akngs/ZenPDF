@@ -66,7 +66,7 @@ struct MinimalPDFView: NSViewRepresentable {
             guard let pdfView = notification.object as? PDFView,
                   let currentPage = pdfView.currentPage,
                   let doc = pdfView.document else { return }
-            parent.docState.goToPage(at: doc.index(for: currentPage) + 1)
+            parent.docState.gotoPage(at: doc.index(for: currentPage) + 1)
         }
         
         @MainActor @objc func scaleChanged(_ notification: Notification) {
