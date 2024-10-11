@@ -1,6 +1,13 @@
+//
+//  ZenPDFUITests.swift
+//  ZenPDFUITests
+//
+//  Created by ak on 2024-10-12.
+//
+
 import XCTest
 
-final class JustPDFUITests: XCTestCase {
+final class ZenPDFUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,7 +33,7 @@ final class JustPDFUITests: XCTestCase {
 
     @MainActor
     func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+        if #available(macOS 10.15, *) {
             // This measures how long it takes to launch your application.
             measure(metrics: [XCTApplicationLaunchMetric()]) {
                 XCUIApplication().launch()

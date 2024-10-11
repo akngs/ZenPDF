@@ -7,75 +7,75 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		419737382CA3E4D80096C2D7 /* PBXContainerItemProxy */ = {
+		4164887E2CB9E13400E141E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4197371B2CA3E4D50096C2D7 /* Project object */;
+			containerPortal = 416488612CB9E13200E141E5 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 419737222CA3E4D50096C2D7;
-			remoteInfo = JustPDF;
+			remoteGlobalIDString = 416488682CB9E13200E141E5;
+			remoteInfo = ZenPDF;
 		};
-		419737422CA3E4D80096C2D7 /* PBXContainerItemProxy */ = {
+		416488882CB9E13400E141E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4197371B2CA3E4D50096C2D7 /* Project object */;
+			containerPortal = 416488612CB9E13200E141E5 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 419737222CA3E4D50096C2D7;
-			remoteInfo = JustPDF;
+			remoteGlobalIDString = 416488682CB9E13200E141E5;
+			remoteInfo = ZenPDF;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		419737232CA3E4D50096C2D7 /* JustPDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustPDF.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		419737372CA3E4D80096C2D7 /* JustPDFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustPDFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		419737412CA3E4D80096C2D7 /* JustPDFUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustPDFUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		416488692CB9E13200E141E5 /* ZenPDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenPDF.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4164887D2CB9E13400E141E5 /* ZenPDFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenPDFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		416488872CB9E13400E141E5 /* ZenPDFUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenPDFUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		419737492CA3E4D80096C2D7 /* Exceptions for "JustPDF" folder in "JustPDF" target */ = {
+		4164888F2CB9E13400E141E5 /* Exceptions for "ZenPDF" folder in "ZenPDF" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 419737222CA3E4D50096C2D7 /* JustPDF */;
+			target = 416488682CB9E13200E141E5 /* ZenPDF */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		419737252CA3E4D50096C2D7 /* JustPDF */ = {
+		4164886B2CB9E13200E141E5 /* ZenPDF */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				419737492CA3E4D80096C2D7 /* Exceptions for "JustPDF" folder in "JustPDF" target */,
+				4164888F2CB9E13400E141E5 /* Exceptions for "ZenPDF" folder in "ZenPDF" target */,
 			);
-			path = JustPDF;
+			path = ZenPDF;
 			sourceTree = "<group>";
 		};
-		4197373A2CA3E4D80096C2D7 /* JustPDFTests */ = {
+		416488802CB9E13400E141E5 /* ZenPDFTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = JustPDFTests;
+			path = ZenPDFTests;
 			sourceTree = "<group>";
 		};
-		419737442CA3E4D80096C2D7 /* JustPDFUITests */ = {
+		4164888A2CB9E13400E141E5 /* ZenPDFUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = JustPDFUITests;
+			path = ZenPDFUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		419737202CA3E4D50096C2D7 /* Frameworks */ = {
+		416488662CB9E13200E141E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		419737342CA3E4D80096C2D7 /* Frameworks */ = {
+		4164887A2CB9E13400E141E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4197373E2CA3E4D80096C2D7 /* Frameworks */ = {
+		416488842CB9E13400E141E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -85,22 +85,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4197371A2CA3E4D50096C2D7 = {
+		416488602CB9E13200E141E5 = {
 			isa = PBXGroup;
 			children = (
-				419737252CA3E4D50096C2D7 /* JustPDF */,
-				4197373A2CA3E4D80096C2D7 /* JustPDFTests */,
-				419737442CA3E4D80096C2D7 /* JustPDFUITests */,
-				419737242CA3E4D50096C2D7 /* Products */,
+				4164886B2CB9E13200E141E5 /* ZenPDF */,
+				416488802CB9E13400E141E5 /* ZenPDFTests */,
+				4164888A2CB9E13400E141E5 /* ZenPDFUITests */,
+				4164886A2CB9E13200E141E5 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		419737242CA3E4D50096C2D7 /* Products */ = {
+		4164886A2CB9E13200E141E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				419737232CA3E4D50096C2D7 /* JustPDF.app */,
-				419737372CA3E4D80096C2D7 /* JustPDFTests.xctest */,
-				419737412CA3E4D80096C2D7 /* JustPDFUITests.xctest */,
+				416488692CB9E13200E141E5 /* ZenPDF.app */,
+				4164887D2CB9E13400E141E5 /* ZenPDFTests.xctest */,
+				416488872CB9E13400E141E5 /* ZenPDFUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,134 +108,134 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		419737222CA3E4D50096C2D7 /* JustPDF */ = {
+		416488682CB9E13200E141E5 /* ZenPDF */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4197374A2CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDF" */;
+			buildConfigurationList = 416488902CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDF" */;
 			buildPhases = (
-				4197371F2CA3E4D50096C2D7 /* Sources */,
-				419737202CA3E4D50096C2D7 /* Frameworks */,
-				419737212CA3E4D50096C2D7 /* Resources */,
+				416488652CB9E13200E141E5 /* Sources */,
+				416488662CB9E13200E141E5 /* Frameworks */,
+				416488672CB9E13200E141E5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				419737252CA3E4D50096C2D7 /* JustPDF */,
+				4164886B2CB9E13200E141E5 /* ZenPDF */,
 			);
-			name = JustPDF;
+			name = ZenPDF;
 			packageProductDependencies = (
 			);
-			productName = JustPDF;
-			productReference = 419737232CA3E4D50096C2D7 /* JustPDF.app */;
+			productName = ZenPDF;
+			productReference = 416488692CB9E13200E141E5 /* ZenPDF.app */;
 			productType = "com.apple.product-type.application";
 		};
-		419737362CA3E4D80096C2D7 /* JustPDFTests */ = {
+		4164887C2CB9E13400E141E5 /* ZenPDFTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4197374F2CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDFTests" */;
+			buildConfigurationList = 416488952CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDFTests" */;
 			buildPhases = (
-				419737332CA3E4D80096C2D7 /* Sources */,
-				419737342CA3E4D80096C2D7 /* Frameworks */,
-				419737352CA3E4D80096C2D7 /* Resources */,
+				416488792CB9E13400E141E5 /* Sources */,
+				4164887A2CB9E13400E141E5 /* Frameworks */,
+				4164887B2CB9E13400E141E5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				419737392CA3E4D80096C2D7 /* PBXTargetDependency */,
+				4164887F2CB9E13400E141E5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				4197373A2CA3E4D80096C2D7 /* JustPDFTests */,
+				416488802CB9E13400E141E5 /* ZenPDFTests */,
 			);
-			name = JustPDFTests;
+			name = ZenPDFTests;
 			packageProductDependencies = (
 			);
-			productName = JustPDFTests;
-			productReference = 419737372CA3E4D80096C2D7 /* JustPDFTests.xctest */;
+			productName = ZenPDFTests;
+			productReference = 4164887D2CB9E13400E141E5 /* ZenPDFTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		419737402CA3E4D80096C2D7 /* JustPDFUITests */ = {
+		416488862CB9E13400E141E5 /* ZenPDFUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 419737522CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDFUITests" */;
+			buildConfigurationList = 416488982CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDFUITests" */;
 			buildPhases = (
-				4197373D2CA3E4D80096C2D7 /* Sources */,
-				4197373E2CA3E4D80096C2D7 /* Frameworks */,
-				4197373F2CA3E4D80096C2D7 /* Resources */,
+				416488832CB9E13400E141E5 /* Sources */,
+				416488842CB9E13400E141E5 /* Frameworks */,
+				416488852CB9E13400E141E5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				419737432CA3E4D80096C2D7 /* PBXTargetDependency */,
+				416488892CB9E13400E141E5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				419737442CA3E4D80096C2D7 /* JustPDFUITests */,
+				4164888A2CB9E13400E141E5 /* ZenPDFUITests */,
 			);
-			name = JustPDFUITests;
+			name = ZenPDFUITests;
 			packageProductDependencies = (
 			);
-			productName = JustPDFUITests;
-			productReference = 419737412CA3E4D80096C2D7 /* JustPDFUITests.xctest */;
+			productName = ZenPDFUITests;
+			productReference = 416488872CB9E13400E141E5 /* ZenPDFUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4197371B2CA3E4D50096C2D7 /* Project object */ = {
+		416488612CB9E13200E141E5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					419737222CA3E4D50096C2D7 = {
+					416488682CB9E13200E141E5 = {
 						CreatedOnToolsVersion = 16.0;
 					};
-					419737362CA3E4D80096C2D7 = {
+					4164887C2CB9E13400E141E5 = {
 						CreatedOnToolsVersion = 16.0;
-						TestTargetID = 419737222CA3E4D50096C2D7;
+						TestTargetID = 416488682CB9E13200E141E5;
 					};
-					419737402CA3E4D80096C2D7 = {
+					416488862CB9E13400E141E5 = {
 						CreatedOnToolsVersion = 16.0;
-						TestTargetID = 419737222CA3E4D50096C2D7;
+						TestTargetID = 416488682CB9E13200E141E5;
 					};
 				};
 			};
-			buildConfigurationList = 4197371E2CA3E4D50096C2D7 /* Build configuration list for PBXProject "JustPDF" */;
+			buildConfigurationList = 416488642CB9E13200E141E5 /* Build configuration list for PBXProject "ZenPDF" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 4197371A2CA3E4D50096C2D7;
+			mainGroup = 416488602CB9E13200E141E5;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 419737242CA3E4D50096C2D7 /* Products */;
+			productRefGroup = 4164886A2CB9E13200E141E5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				419737222CA3E4D50096C2D7 /* JustPDF */,
-				419737362CA3E4D80096C2D7 /* JustPDFTests */,
-				419737402CA3E4D80096C2D7 /* JustPDFUITests */,
+				416488682CB9E13200E141E5 /* ZenPDF */,
+				4164887C2CB9E13400E141E5 /* ZenPDFTests */,
+				416488862CB9E13400E141E5 /* ZenPDFUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		419737212CA3E4D50096C2D7 /* Resources */ = {
+		416488672CB9E13200E141E5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		419737352CA3E4D80096C2D7 /* Resources */ = {
+		4164887B2CB9E13400E141E5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4197373F2CA3E4D80096C2D7 /* Resources */ = {
+		416488852CB9E13400E141E5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,21 +245,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4197371F2CA3E4D50096C2D7 /* Sources */ = {
+		416488652CB9E13200E141E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		419737332CA3E4D80096C2D7 /* Sources */ = {
+		416488792CB9E13400E141E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4197373D2CA3E4D80096C2D7 /* Sources */ = {
+		416488832CB9E13400E141E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,82 +269,110 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		419737392CA3E4D80096C2D7 /* PBXTargetDependency */ = {
+		4164887F2CB9E13400E141E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 419737222CA3E4D50096C2D7 /* JustPDF */;
-			targetProxy = 419737382CA3E4D80096C2D7 /* PBXContainerItemProxy */;
+			target = 416488682CB9E13200E141E5 /* ZenPDF */;
+			targetProxy = 4164887E2CB9E13400E141E5 /* PBXContainerItemProxy */;
 		};
-		419737432CA3E4D80096C2D7 /* PBXTargetDependency */ = {
+		416488892CB9E13400E141E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 419737222CA3E4D50096C2D7 /* JustPDF */;
-			targetProxy = 419737422CA3E4D80096C2D7 /* PBXContainerItemProxy */;
+			target = 416488682CB9E13200E141E5 /* ZenPDF */;
+			targetProxy = 416488882CB9E13400E141E5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		4197374B2CA3E4D80096C2D7 /* Debug */ = {
+		416488912CB9E13400E141E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = JustPDF/JustPDF.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 20241011.0;
-				DEVELOPMENT_ASSET_PATHS = "\"JustPDF/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = VVQ63VY9TS;
+				CODE_SIGN_ENTITLEMENTS = ZenPDF/ZenPDF.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ZenPDF/Preview Content\"";
+				DEVELOPMENT_TEAM = QXA39URDX5;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JustPDF/Info.plist;
+				INFOPLIST_FILE = ZenPDF/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ZenPDF;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ak.JustPDF;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				"INFOPLIST_KEY_UISupportsDocumentBrowser[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UISupportsDocumentBrowser[sdk=iphonesimulator*]" = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		4197374C2CA3E4D80096C2D7 /* Release */ = {
+		416488922CB9E13400E141E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = JustPDF/JustPDF.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_ENTITLEMENTS = ZenPDF/ZenPDF.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 20241011.0;
-				DEVELOPMENT_ASSET_PATHS = "\"JustPDF/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ZenPDF/Preview Content\"";
 				DEVELOPMENT_TEAM = QXA39URDX5;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JustPDF/Info.plist;
+				INFOPLIST_FILE = ZenPDF/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ZenPDF;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.JustPDF;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				"INFOPLIST_KEY_UISupportsDocumentBrowser[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UISupportsDocumentBrowser[sdk=iphonesimulator*]" = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
-		4197374D2CA3E4D80096C2D7 /* Debug */ = {
+		416488932CB9E13400E141E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -355,8 +383,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_TIDY_BUGPRONE_REDUNDANT_BRANCH_CONDITION = YES;
-				CLANG_TIDY_MISC_REDUNDANT_EXPRESSION = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -381,12 +407,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -401,19 +424,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
-		4197374E2CA3E4D80096C2D7 /* Release */ = {
+		416488942CB9E13400E141E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -424,8 +445,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_TIDY_BUGPRONE_REDUNDANT_BRANCH_CONDITION = YES;
-				CLANG_TIDY_MISC_REDUNDANT_EXPRESSION = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -450,12 +469,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -464,120 +480,144 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
-		419737502CA3E4D80096C2D7 /* Debug */ = {
+		416488962CB9E13400E141E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXA39URDX5;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ak.JustPDFTests;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDFTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JustPDF";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZenPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ZenPDF";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		419737512CA3E4D80096C2D7 /* Release */ = {
+		416488972CB9E13400E141E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXA39URDX5;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ak.JustPDFTests;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDFTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JustPDF";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZenPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ZenPDF";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
-		419737532CA3E4D80096C2D7 /* Debug */ = {
+		416488992CB9E13400E141E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXA39URDX5;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ak.JustPDFUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDFUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = JustPDF;
+				TEST_TARGET_NAME = ZenPDF;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		419737542CA3E4D80096C2D7 /* Release */ = {
+		4164889A2CB9E13400E141E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXA39URDX5;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ak.JustPDFUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = vision.thed.ZenPDFUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = JustPDF;
+				TEST_TARGET_NAME = ZenPDF;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4197371E2CA3E4D50096C2D7 /* Build configuration list for PBXProject "JustPDF" */ = {
+		416488642CB9E13200E141E5 /* Build configuration list for PBXProject "ZenPDF" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4197374D2CA3E4D80096C2D7 /* Debug */,
-				4197374E2CA3E4D80096C2D7 /* Release */,
+				416488932CB9E13400E141E5 /* Debug */,
+				416488942CB9E13400E141E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4197374A2CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDF" */ = {
+		416488902CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDF" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4197374B2CA3E4D80096C2D7 /* Debug */,
-				4197374C2CA3E4D80096C2D7 /* Release */,
+				416488912CB9E13400E141E5 /* Debug */,
+				416488922CB9E13400E141E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4197374F2CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDFTests" */ = {
+		416488952CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDFTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				419737502CA3E4D80096C2D7 /* Debug */,
-				419737512CA3E4D80096C2D7 /* Release */,
+				416488962CB9E13400E141E5 /* Debug */,
+				416488972CB9E13400E141E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		419737522CA3E4D80096C2D7 /* Build configuration list for PBXNativeTarget "JustPDFUITests" */ = {
+		416488982CB9E13400E141E5 /* Build configuration list for PBXNativeTarget "ZenPDFUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				419737532CA3E4D80096C2D7 /* Debug */,
-				419737542CA3E4D80096C2D7 /* Release */,
+				416488992CB9E13400E141E5 /* Debug */,
+				4164889A2CB9E13400E141E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4197371B2CA3E4D50096C2D7 /* Project object */;
+	rootObject = 416488612CB9E13200E141E5 /* Project object */;
 }

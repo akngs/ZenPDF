@@ -1,6 +1,6 @@
-# JustPDF
+# ZenPDF
 
-JustPDF is just a PDF viewer for macOS.
+ZenPDF is a minimal PDF viewer for macOS.
 
 ![Comparison](./comparison.webp)
 

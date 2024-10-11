@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 import CryptoKit
 
 @main
-struct JustPDFApp: App {
+struct ZenPDFApp: App {
     @FocusedValue(\.docState) var docState: DocState?
     @FocusedBinding(\.showGotoDialog) var showGotoDialog
 

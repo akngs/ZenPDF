@@ -1,6 +1,13 @@
+//
+//  ZenPDFUITestsLaunchTests.swift
+//  ZenPDFUITests
+//
+//  Created by ak on 2024-10-12.
+//
+
 import XCTest
 
-final class JustPDFUITestsLaunchTests: XCTestCase {
+final class ZenPDFUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
