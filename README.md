@@ -1,6 +1,6 @@
 # ZenPDF
 
-ZenPDF is a minimal PDF viewer for macOS.
+ZenPDF is a minimal PDF viewer for macOS. Download for free on the [Mac App Store](https://apps.apple.com/app/zenpdf/id6736846944).
 
 ![Comparison](./comparison.webp)
 

@@ -43,6 +43,10 @@ struct MinimalPDFView: NSViewRepresentable {
                                                    name: .PDFViewScaleChanged,
                                                    object: pdfView)
             NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(displayModeChanged(_:)),
+                                                   name: .PDFViewDisplayModeChanged,
+                                                   object: pdfView)
+            NotificationCenter.default.addObserver(self,
                                                    selector: #selector(boundsChanged(_:)),
                                                    name: NSView.frameDidChangeNotification,
                                                    object: pdfView)
@@ -64,6 +68,11 @@ struct MinimalPDFView: NSViewRepresentable {
             pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
         }
         
+        @MainActor @objc func displayModeChanged(_ notification: Notification) {
+            guard let pdfView = notification.object as? PDFView else { return }
+            parent.docState.setDisplayMode(to: pdfView.displayMode)
+        }
+
         @MainActor @objc func boundsChanged(_ notification: Notification) {
             guard let pdfView = notification.object as? PDFView else { return }
             pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
@@ -72,6 +81,8 @@ struct MinimalPDFView: NSViewRepresentable {
         @MainActor func updatePDFView(_ pdfView: PDFView) {
             if let doc = parent.doc,
                let page = doc.page(at: parent.docState.pageNum - 1) {
+
+                pdfView.displayMode = PDFDisplayMode(rawValue: parent.docState.displayMode)!
                 pdfView.go(to: page)
                 pdfView.scaleFactor = parent.docState.scaleFactor * pdfView.scaleFactorForSizeToFit
             }
@@ -90,5 +101,5 @@ struct MinimalPDFView: NSViewRepresentable {
 }
 
 #Preview {
-    MinimalPDFView(doc: nil, docState: DocState(id: "Untitled", scaleFactor: 1.0, pageNum: 1, totalPages: 10))
+    MinimalPDFView(doc: nil, docState: DocState(id: "Untitled", scaleFactor: 1.0, pageNum: 1, totalPages: 10, displayMode: .singlePage))
 }

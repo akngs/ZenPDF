@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 @preconcurrency import PDFKit
 import UniformTypeIdentifiers
 import CryptoKit
@@ -7,12 +8,17 @@ import CryptoKit
 struct ZenPDFApp: App {
     @FocusedValue(\.docState) var docState: DocState?
     @FocusedBinding(\.showGotoDialog) var showGotoDialog
+    
+    let container: ModelContainer = {
+        do { return try ModelContainer(for: DocState.self, migrationPlan: DocStateSchemaMigrationPlan.self) }
+        catch { fatalError("Failed to create ModelContainer: \(error)") }
+    }()
 
     var body: some Scene {
         DocumentGroup(viewing: Document.self) { file in
             MainView(doc: file.document)
                 .background(WindowAccessor())
-                .modelContainer(for: [DocState.self])
+                .modelContainer(container)
         }
         .commands {
             CommandGroup(after: .sidebar) {
